@@ -35,6 +35,7 @@ def fetch_employee_todo(employee_id):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
