@@ -7,6 +7,7 @@ import csv
 import requests
 import sys
 
+
 def fetch_employee_todo_csv(employee_id):
     """Fetch TODO list for a given employee ID from JSONPlaceholder API and export to CSV."""
     base_url = 'https://jsonplaceholder.typicode.com'
@@ -25,6 +26,10 @@ def fetch_employee_todo_csv(employee_id):
             return
 
         username = user_data.get('name')
+        if not username:
+            print("Username not found.")
+            return
+
         csv_filename = f"{employee_id}.csv"
 
         with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
