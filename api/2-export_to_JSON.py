@@ -1,62 +1,39 @@
 #!/usr/bin/python3
 """
-Script to fetch and export TODO list of an employee to a JSON file.
+    api task 2
 """
 
 import json
-import requests
+from json import decoder
 import sys
+import urllib.request
 
-
-def fetch_employee_todo_json(employee_id):
-    """Fetch TODO list for a given employee ID from JSONPlaceholder API
-    and export to JSON."""
-    base_url = 'https://jsonplaceholder.typicode.com'
-    user_url = f'{base_url}/users/{employee_id}'
-    todos_url = f'{base_url}/todos?userId={employee_id}'
-
-    try:
-        user_response = requests.get(user_url)
-        todos_response = requests.get(todos_url)
-
-        user_data = user_response.json()
-        todos_data = todos_response.json()
-
-        if not user_data or not todos_data:
-            print("No data found.")
-            return
-
-        username = user_data.get('name')
-        if not username:
-            print("Username not found.")
-            return
-
-        json_filename = f"{employee_id}.json"
-
-        # Prepare data for JSON
-        tasks_list = [
-            {
-                "task": task.get('title'),
-                "completed": task.get('completed'),
-                "username": username
-            }
-            for task in todos_data
-        ]
-
-        # Write data to JSON file
-        with open(json_filename, mode='w', encoding='utf-8') as file:
-            json.dump({employee_id: tasks_list}, file, indent=4)
-
-        print(f"Data successfully exported to {json_filename}")
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
+base = "https://jsonplaceholder.typicode.com/"
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 2-export_to_JSON.py <employee_id>")
-        sys.exit(1)
+    for employee_id in sys.argv[1:]:
+        url = base + "users/{}".format(employee_id)
+        with urllib.request.urlopen(url) as response:
+            user_data = response.read()
+        user = json.loads(user_data)
+        username = user["username"]
 
-    employee_id = sys.argv[1]
-    fetch_employee_todo_json(employee_id)
+        url = base + "todos?userId={}".format(employee_id)
+        with urllib.request.urlopen(url) as response:
+            todo_data = response.read()
+
+        todos = json.loads(todo_data)
+
+        out = {}
+        tasks = []
+        for todo in todos:
+            task = {}
+            task["task"] = todo["title"]
+            task["completed"] = todo["completed"]
+            task["username"] = username
+            tasks.append(task)
+        out[employee_id] = tasks
+
+        with open(f"{employee_id}.json", "w") as f:
+            json.dump(out, f)
