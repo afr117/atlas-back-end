@@ -1,16 +1,10 @@
-#!/usr/bin/python3
-"""
-Script to fetch and export TODO list of an employee to a CSV file.
-"""
-
 import csv
 import requests
 import sys
 
 
 def fetch_employee_todo_csv(employee_id):
-    """Fetch TODO list for a given employee ID
-    from JSONPlaceholder API and export to CSV."""
+    """Fetch TODO list for a given employee ID from JSONPlaceholder API and export to CSV."""
     base_url = 'https://jsonplaceholder.typicode.com'
     user_url = f'{base_url}/users/{employee_id}'
     todos_url = f'{base_url}/todos?userId={employee_id}'
@@ -21,6 +15,9 @@ def fetch_employee_todo_csv(employee_id):
 
         user_data = user_response.json()
         todos_data = todos_response.json()
+
+        print(f"User data: {user_data}")  # Debugging line
+        print(f"TODO data: {todos_data}")  # Debugging line
 
         if not user_data or not todos_data:
             print("No data found.")
@@ -33,8 +30,7 @@ def fetch_employee_todo_csv(employee_id):
 
         csv_filename = f"{employee_id}.csv"
 
-        with open(csv_filename, mode='w', newline='',
-                  encoding='utf-8') as file:
+        with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file, quoting=csv.QUOTE_ALL)
             for task in todos_data:
                 row = [
@@ -49,7 +45,6 @@ def fetch_employee_todo_csv(employee_id):
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
