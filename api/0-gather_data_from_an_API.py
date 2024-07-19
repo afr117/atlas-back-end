@@ -6,6 +6,7 @@ Script to fetch and display TODO list progress of an employee from a given API.
 import requests
 import sys
 
+
 def fetch_employee_todo(employee_id):
     """Fetch TODO list for a given employee ID from JSONPlaceholder API."""
     base_url = 'https://jsonplaceholder.typicode.com'
@@ -27,7 +28,8 @@ def fetch_employee_todo(employee_id):
         total_tasks = len(todos_data)
         done_tasks = [task for task in todos_data if task.get('completed')]
 
-        print(f"Employee {employee_name} is done with tasks({len(done_tasks)}/{total_tasks}):")
+        print(f"Employee {employee_name} is done with tasks({len(done_tasks)}
+        /{total_tasks}):")
         for task in done_tasks:
             print(f"\t {task.get('title')}")
 
