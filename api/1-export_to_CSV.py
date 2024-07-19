@@ -7,8 +7,10 @@ import csv
 import requests
 import sys
 
+
 def fetch_employee_todo_csv(employee_id):
-    """Fetch TODO list for a given employee ID from JSONPlaceholder API and export to CSV."""
+    """Fetch TODO list for a given employee ID from
+    JSONPlaceholder API and export to CSV."""
     base_url = 'https://jsonplaceholder.typicode.com'
     user_url = f'{base_url}/users/{employee_id}'
     todos_url = f'{base_url}/todos?userId={employee_id}'
@@ -31,6 +33,7 @@ def fetch_employee_todo_csv(employee_id):
 
         csv_filename = f"{employee_id}.csv"
 
+        
         with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file, quoting=csv.QUOTE_ALL)
             for task in todos_data:
@@ -45,6 +48,7 @@ def fetch_employee_todo_csv(employee_id):
 
         print(f"Data successfully exported to {csv_filename}")
 
+    
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")
 
