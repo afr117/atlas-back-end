@@ -32,7 +32,7 @@ def fetch_employee_todo_json(employee_id):
             return
 
         json_filename = f"{employee_id}.json"
-    
+
         # Prepare data for JSON
         tasks_list = [
             {
