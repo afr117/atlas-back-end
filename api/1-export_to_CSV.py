@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+"""
+Script to fetch and export TODO list of an employee to a CSV file.
+"""
+
 import csv
 import requests
 import sys
