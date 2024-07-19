@@ -9,8 +9,8 @@ import sys
 
 
 def fetch_employee_todo_csv(employee_id):
-    """Fetch TODO list for a given employee ID"""
-    """from JSONPlaceholder API and export to CSV."""
+    """Fetch TODO list for a given employee ID
+    from JSONPlaceholder API and export to CSV."""
     base_url = 'https://jsonplaceholder.typicode.com'
     user_url = f'{base_url}/users/{employee_id}'
     todos_url = f'{base_url}/todos?userId={employee_id}'
